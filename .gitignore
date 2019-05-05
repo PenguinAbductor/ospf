@@ -1,0 +1,8 @@
+.DS_Store
+*.ini
+*.log
+/node_modules
+/Guardian
+/mdc
+/ospf
+index.php

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-GB" manifest="sim.appcache">
+    <head>
+        <meta charset="utf-8">
+        <title>IP Routing: OSPF - Link State Packet</title>
+        <meta name="vieport" content="width=devece-width, initial-scale=1, user-scalable=no, minimal-ui">
+        <meta name="description" content="OSPF uses link state packets (LSPs) which are special datagrams that determine the names of and the cost or distance to any neighbouring routers and associated networks.">
+        <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css">
+        <style>            
+            .btn:not(.collapsed) {
+                background-color: #343a40;
+            }
+            
+            .jumbotron {
+                height: 100%;
+            }
+            
+            .container > h2::first-letter {
+                color: firebrick;
+            }
+            
+            #lsp {
+                margin: 0 auto;
+            }
+        </style>      
+    </head>
+    <body>
+<!--        <script>
+            var bgImages = ["batthern", "connected", "crissxcross", "light-wool", "random-grey-variations"];
+            document.body.style.backgroundImage = "url('assets/"+ bgImages[Math.floor(Math.random() * bgImages.length)] +".png')";
+        </script>-->
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                    <h2 class="display-5">Link State Packet</h2>
+                    <p class="lead">OSPF uses link state packets (LSPs) which are special datagrams that determine the names of and the cost or distance to any neighbouring routers and associated networks. The diagram below shows the information that each field of an OSPF packet contains, click on a field in the packet for more information: </p>
+                    <div id="details">               
+                        <div id="lsp" class="btn-group" role="group">
+                            <div class="btn-group mr-1">
+                                <button type="button" data-toggle="collapse" data-parent="#details" data-target="#ver" class="btn btn-secondary border border-top-0 border-bottom-0 collapsed">Version Number</button>
+                                <button type="button" data-toggle="collapse" data-parent="#details" data-target="#type" class="btn btn-secondary border border-top-0 border-bottom-0 collapsed">Type</button>
+                                <button type="button" data-toggle="collapse" data-parent="#details" data-target="#len" class="btn btn-secondary border border-top-0 border-bottom-0 collapsed">Packet Length</button>
+                                <button type="button" data-toggle="collapse" data-parent="#details" data-target="#rout" class="btn btn-secondary border border-top-0 border-bottom-0 collapsed">Router ID</button>
+                                <button type="button" data-toggle="collapse" data-parent="#details" data-target="#area" class="btn btn-secondary border border-top-0 border-bottom-0 collapsed">Area ID</button>
+                                <button type="button" data-toggle="collapse" data-parent="#details" data-target="#chksm" class="btn btn-secondary border border-top-0 border-bottom-0 collapsed">Check Sum</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" data-toggle="collapse" data-parent="#details" data-target="#authT" class="btn btn-secondary border border-top-0 border-bottom-0 collapsed">Authentication Type</button>
+                                <button type="button" data-toggle="collapse" data-parent="#details" data-target="#auth" class="btn btn-secondary border border-top-0 border-bottom-0 collapsed">Authentication</button>
+                                <button type="button" data-toggle="collapse" data-parent="#details" data-target="#data" class="btn btn-secondary border border-top-0 border-bottom-0 collapsed">Data</button>
+                            </div>
+                        </div>
+
+                        <div class="accordion-group">
+                            <div class="collapse" id="ver">
+                                <h4 class="card-header">Version Number</h4>
+                                <div class="card card-body">
+                                <h5 class="card-title">
+                                    <span class="badge badge-primary">Size</span> 1 byte
+                                </h5>
+                                <p class="card-text">Identifies the OSPF version used.</p>
+                                </div>
+                                <div class="card-footer"><strong>Note: </strong>the lengths in the diagram are in Bytes (8 Bits = 1 Byte)</div>
+                            </div>
+                            <div class="collapse" id="type">
+                                <h4 class="card-header">Type</h4>
+                                <div class="card card-body">
+                                <h5 class="card-title">
+                                    <span class="badge badge-primary">Size</span> 1 byte
+                                </h5>
+                                <p class="card-text">Identifies the OSPF packets type</p>
+                                </div>
+                                <div class="card-footer"><strong>Note: </strong>the lengths in the diagram are in Bytes (8 Bits = 1 Byte)</div>
+                            </div>
+                            <div class="collapse" id="len">
+                                <h4 class="card-header">Packet Length</h4>
+                                <div class="card card-body">
+                                <h5 class="card-title">
+                                    <span class="badge badge-primary">Size</span> 2 bytes
+                                </h5>
+                                <p class="card-text">Specifies the packet length, including the OSPF header, in bytes.</p>
+                                </div>
+                                <div class="card-footer"><strong>Note: </strong>the lengths in the diagram are in Bytes (8 Bits = 1 Byte)</div>
+                            </div>
+                            <div class="collapse" id="rout">
+                                <h4 class="card-header">Router ID</h4>
+                                <div class="card card-body">
+                                <h5 class="card-title">
+                                    <span class="badge badge-primary">Size</span> 4 bytes
+                                </h5>
+                                <p class="card-text">Identifies the source of the packet.</p>
+                                </div>
+                                <div class="card-footer"><strong>Note: </strong>the lengths in the diagram are in Bytes (8 Bits = 1 Byte)</div>
+                            </div>
+                            <div class="collapse" id="area">
+                                <h4 class="card-header">Area ID</h4>
+                                <div class="card card-body">
+                                <h5 class="card-title">
+                                    <span class="badge badge-primary">Size</span> 4 bytes
+                                </h5>
+                                <p class="card-text">Identifies the area to which the packet belongs. All OSPF packets are associated with a single area.</p>
+                                </div>
+                                <div class="card-footer"><strong>Note: </strong>the lengths in the diagram are in Bytes (8 Bits = 1 Byte)</div>
+                            </div>
+                            <div class="collapse" id="chksm">
+                                <h4 class="card-header">Check Sum</h4>
+                                <div class="card card-body">
+                                <h5 class="card-title">
+                                    <span class="badge badge-primary">Size</span> 2 bytes
+                                </h5>
+                                <p class="card-text">Checksum error is used to identify errors in the packet.</p>
+                                </div>
+                                <div class="card-footer"><strong>Note: </strong>the lengths in the diagram are in Bytes (8 Bits = 1 Byte)</div>
+                            </div>
+                            <div class="collapse" id="authT">
+                                <h4 class="card-header">Authentication Type</h4>
+                                <div class="card card-body">
+                                <h5 class="card-title">
+                                    <span class="badge badge-primary">Size</span> 2 bytes
+                                </h5>
+                                <p class="card-text">All OSPF protocol exchanges are authenticated. The authentication type is configurable on a per-area basis.</p>
+                                </div>
+                                <div class="card-footer"><strong>Note: </strong>the lengths in the diagram are in Bytes (8 Bits = 1 Byte)</div>
+                            </div>
+                            <div class="collapse" id="auth">
+                                <h4 class="card-header">Authentication</h4>
+                                <div class="card card-body">
+                                <h5 class="card-title">
+                                    <span class="badge badge-primary">Size</span> 8 bytes
+                                </h5>
+                                <p class="card-text">Contains authentication information.</p>
+                                </div>
+                                <div class="card-footer"><strong>Note: </strong>the lengths in the diagram are in Bytes (8 Bits = 1 Byte)</div>
+                            </div>
+                            <div class="collapse" id="data">
+                                <h4 class="card-header">Data</h4>
+                                <div class="card card-body">
+                                <h5 class="card-title">
+                                    <span class="badge badge-primary">Size</span> Variable
+                                </h5>
+                                <p class="card-text">Contains encapsulated upper-layer information. The size of this section is variable.</p>
+                                </div>
+                                <div class="card-footer"><strong>Note: </strong>the lengths in the diagram are in Bytes (8 Bits = 1 Byte)</div>
+                            </div>
+                        </div>
+                    </div>
+            </div>   
+        </div>
+        
+        <script src="scripts/jquery-1.12.4.min.js"></script>
+        <script src="scripts/popper.min.js"></script>
+        <script src="scripts/bootstrap.min.js"></script>
+    </body>  
+</html>

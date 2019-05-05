@@ -1,0 +1,218 @@
+html {
+    height: 100%;
+}
+body {
+    font-family: "Roboto";
+    height: 100%;
+    overflow-y: auto;
+    max-width: 100%;
+/*    background: #ffb234 url(../assets/batthern.png) center/100px 99px repeat fixed;*/
+    background-color: #ffb234;
+    background-position: center;
+    background-repeat: repeat;
+    background-size: 100px;
+    background-attachment: fixed;
+    animation: expand ease-out 3s;
+    -webkit-animation: expand ease-out 3s;
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 300;
+    src: url(../assets/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Roboto-thin";
+    font-style: normal;
+    font-weight: 300;
+    src: url(../assets/Roboto-Thin.ttf);
+}
+
+h1 {
+    font-family: "Roboto-thin";
+    margin-top: 0;
+    margin-left: 20px;
+}
+
+form {
+    display: none;
+}
+
+iframe {
+    max-width: inherit;
+    height: 100%;
+    width: 100%;
+}
+
+.network {
+    background-color: rgba(255, 255, 255, 0.51);
+    margin-right: 300px;
+    width: auto;
+}
+
+.mdl-list > .mdl-list__item {
+    max-height: 30px;
+}
+
+span.mdl-chip__contact.mdl-color--red.mdl-color-text--white > i {
+    padding-top: 3px;
+}
+
+.side {
+    width: 300px;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    overflow-y: auto;
+    /*background-color: rgba(255, 255, 255, 0.51);*/
+}
+
+.side > .mdl-card__title {
+    height: 55px;
+    background-color: #3F51B5;
+    background: -webkit-linear-gradient(92deg, #3F51B5, rgba(63, 81, 181, 0.71));
+    background: -moz-linear-gradient(92deg, #3F51B5, rgba(63, 81, 181, 0.71));
+    background: linear-gradient(92deg, #3F51B5, rgba(63, 81, 181, 0.71));
+}
+
+.side .mdl-card__title-text {
+    color: white;
+}
+.side .mdl-card__subtitle-text {
+    color: rgba(255, 255, 255, 0.55);
+    margin-left: 10px;
+    position: relative;
+    bottom: -10px;
+}
+
+@keyframes expand {
+    from {background-size: 200px;}
+        to {background-size: 100px;}
+    }
+
+@-webkit-keyframes expand {
+    from {background-size: 200px;}
+        to {background-size: 100px;}
+    }
+
+.network > .mdl-card__actions > p {
+/*    width 70%;*/
+    display: inline-block;
+}
+
+.network > .mdl-card__actions > p > span {
+    margin-left: 16%;
+}
+
+#prev, #next, #reset {
+    float: right;
+    margin-right: 10px;
+}
+
+#interrupt {
+    display: none;
+    position: relative;
+    float: right;
+}
+
+#calc, #step {
+    float: right;
+    margin-left: 5px;
+}
+
+#networks {
+    min-height: 200px;
+    overflow: auto;
+}
+
+#routing_table {
+    width: 100%;
+}
+
+#lsp_window {
+    display: none;
+    height: 550px;
+}
+    
+#graph {
+    border-top: 5px dashed rgba(85, 139, 47, 0.61);
+    border-bottom: 5px dashed rgba(85, 139, 47, 0.61);
+    justify-content: center;
+    height: 550px;
+    background-image: url(../assets/furley_bg.png);
+}
+
+#progress {
+    width: inherit;
+    height: 4px;
+    display: none;
+}
+
+#import-canvas {
+    margin-right: 0;
+}
+
+#switch > span {
+    margin-left: 14px;
+}
+
+/* Material icon references */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(../assets/MaterialIcons-Regular.woff2) format('woff2'),
+    url(../assets/MaterialIcons-Regular.woff) format('woff'),
+    url(../assets/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+/*
+ul {
+    list-style: none;
+    border: 1px groove #4CAF50;
+    background-color: rgba(139, 195, 74, 0.4);
+}
+*/
+
+/*
+
+button {
+    width: 100%;
+    height: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-height: 30px;
+}
+
+*/

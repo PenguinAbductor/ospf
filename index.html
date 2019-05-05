@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en-GB" manifest="sim.appcache">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>IP Routing: OSPF - Simulator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
+        <meta name="description" content="This site supports learning through interaction with animated representations of the OSPF IP routing protocol, and provides some context and links for further study.">
+        <link rel="stylesheet" href="styles/material.min.css" title="Indigo">
+        <link rel="stylesheet alternate" href="styles/material.alternate.min.css" title="Desert">
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
+        <script defer src="scripts/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
+        <script defer src="scripts/material.min.js"></script>
+        <script src="scripts/fabric.min.js"></script>
+        <script defer src="scripts/main.js"></script>
+    </head>
+    <body>
+        <script>
+            var bgImages = ["batthern", "connected", "crissxcross", "light-wool", "random-grey-variations"];
+            document.body.style.backgroundImage = "url('assets/"+ bgImages[Math.floor(Math.random() * bgImages.length)] +".png')";
+        </script>
+        <h1>OSPF Routing</h1>
+<!--        Main graphing panel -->
+        <div class="network mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Dijkstra's Shortest Path Algorithm</h2>
+            </div>
+            <div class="mdl-card__actions">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="button" id="clear-canvas"><i class="material-icons">clear</i> Clear</button>
+                <p>
+                    <span>Maximum cost: 20</span><input id="cost" class="mdl-slider mdl-js-slider" type="range" min="10" max="100" value="20" step="10" tabindex="0">
+                </p>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="toggle">LSP / Drawing</button>
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" id="next">
+                      <i class="material-icons">&#xE044;</i>
+                </button>
+                <div class="mdl-tooltip mdl-tooltip--top" data-mdl-for="next">Next Step</div>
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" id="prev">
+                      <i class="material-icons">&#xE045;</i>
+                </button>
+                <div class="mdl-tooltip mdl-tooltip--top" data-mdl-for="prev">Previous Step</div>
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" id="reset">
+                      <i class="material-icons">&#xE042;</i>
+                </button>
+                <div class="mdl-tooltip mdl-tooltip--top" data-mdl-for="reset">Reset</div>
+            </div>
+            <!-- container will be built upon Fabric initialisation  -->
+            <canvas id="graph"></canvas>
+            <div id="lsp_window" class="mdl-card__media"><iframe></iframe></div>
+            <div class="mdl-card__actions">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="button" id="save-canvas"><i class="material-icons">save</i> Save Network</button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="button" id="export-canvas"><i class="material-icons">launch</i> Export Network</button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" type="button" id="step"><i class="material-icons">&#xE037;</i> Calculate by Step</button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" type="button" id="calc"> <i class="material-icons">&#xE3A5;</i>Calculate Route</button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="interrupt"><i class="material-icons">&#xE047;</i> Stop</button>
+            </div>
+            <div class="mdl-card__menu">
+                <label id="switch" for="random" class="mdl-switch mdl-js-switch mdl-js-ripple-effect"><span>Apply Random Cost</span><input type="checkbox" id="random" class="mdl-switch__input"></label>
+                <span class="mdl-tooltip mdl-tooltip--left" data-mdl-for="switch">Apply random cost</span>
+            </div>
+        </div>
+<!--        Side panel -->
+        <div class="side mdl-card mdl-shadow--4dp">
+            <div class="mdl-card__title">
+                <h4 class="mdl-card__title-text">Saved Networks</h4>
+                <h6 class="mdl-card__subtitle-text">click to load</h6>
+            </div>
+            <div id="networks" class="mdl-card__supporting-text mdl-card--border"></div>
+            <div class=mdl-card__actions>
+                <button class="mdl-button mdl-js-button mdl-button--primary" id="import-canvas">
+                    <i class="material-icons">&#xE89C;</i> Load External Network Data
+                </button>
+            </div>
+            <form action="#">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <textarea class="mdl-textfield__input" type="text" rows="3" id="export"></textarea>
+                    <label class="mdl-textfield__label" for="export">Network data</label>
+                </div>
+            </form>
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow-2dp" sortable id="routing_table"></table>
+            <div class="mdl-card__media">
+                <div id="progress" class="mdl-progress mdl-js-progress"></div>
+            </div>
+            <ul class="mdl-list">
+                <li class="mdl-list__item mdl-list__item--two-line">
+                    <span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">info_outline</i>Alt<span class="mdl-list__item-sub-title">Remove</span></span>
+                </li>
+                <li class="mdl-list__item mdl-list__item--two-line">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-icon">info_outline</i>
+                        <span>Shift</span>
+                        <span class="mdl-list__item-sub-title">Connect/change link cost</span>
+                    </span>
+                </li>
+                <li class="mdl-list__item mdl-list__item--two-line">
+                    <span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">info_outline</i>Alt + Shift<span class="mdl-list__item-sub-title">Assign source node</span></span>
+                </li>
+            </ul>
+            <div class="mdl-card__supporting-text">
+                <span class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--red mdl-color-text--white">
+                        <i class="material-icons">&#xE863;</i>
+                    </span>
+                    <span class="mdl-chip__text">Currently being examined</span>
+                </span>
+                <span class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--deep-orange mdl-color-text--white">T</span>
+                    <span class="mdl-chip__text">Added to Tentative list</span>
+                </span>
+                <span class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--deep-purple mdl-color-text--white">T</span>
+                    <span class="mdl-chip__text">Updated in Tentative list</span>
+                </span>
+                <span class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--indigo mdl-color-text--white">C</span>
+                    <span class="mdl-chip__text">Moved to Confirmed list</span>
+                </span>
+                <hr>
+                <span>&copy; 2017 University of St Andrews</span>
+            </div>
+        </div>
+        <div class="mdl-snackbar mdl-js-snackbar">
+            <div class="mdl-snackbar__text"></div>
+            <button type="button" class="mdl-snackbar__action"></button>
+        </div>
+    </body>
+</html>
